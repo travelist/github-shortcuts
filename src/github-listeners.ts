@@ -13,6 +13,7 @@ import {GithubIssuePageListener} from "./github-issue-page-listener"
 export const newGithubListener = (): GithubListener | null => {
     switch (currentPage()) {
         case GithubPage.RepositoryIssueList:
+        case GithubPage.UserIssues:
             return new GithubIssuePageListener()
         // case GithubPage.RepositoryPullRequest:
         //   return new PullRequestPageListener()
@@ -29,7 +30,16 @@ export const isSupportedPage = (): boolean => {
 }
 
 enum GithubPage {
+    /**
+     * https://github.com/:org/:project/issues
+     */
     RepositoryIssueList,
+
+    /**
+     * https://github.com/issues
+     */
+    UserIssues
+
     // RepositoryPullRequest
 }
 
@@ -37,6 +47,7 @@ const currentPage = (): GithubPage | null => {
     const paths = window.location.pathname.split('/')
 
     if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
+    if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues
     // if (paths.length >= 4 && paths[3].endsWith('pulls')) return GithubPage.RepositoryPullRequest
     return null
 }

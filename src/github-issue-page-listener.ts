@@ -99,12 +99,7 @@ export class GithubIssuePageListener implements GithubListener {
     }
 
     public enter(e: Event): void {
-        let issueId = this.issues[this.currentIssue].id.split('_')[1]
-        let paths = location.pathname.split('/')
-        let pathname: string = ''
-        for (let i = 1; i < 3; i++) pathname += `/${paths[i]}`
-        pathname += `/issues/${issueId}`
-        location.href = pathname
+        location.href = this.getCurrentIssueLink()
     }
 
     private hasNextPage(): boolean {
@@ -149,5 +144,11 @@ export class GithubIssuePageListener implements GithubListener {
     private focusOut(issueIndex: number) {
         if (issueIndex < 0 || issueIndex > this.totalIssue) return
         this.issues[issueIndex].classList.remove(GithubIssuePageListener.ACTIVE_ISSUE_CLASS)
+    }
+
+    private getCurrentIssueLink(): string {
+        let issueATagId = `a[id=${this.issues[this.currentIssue].id}_link]`
+        let aTag = document.querySelector(issueATagId)
+        return aTag?.getAttribute('href') || ''
     }
 }
