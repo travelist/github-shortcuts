@@ -9,7 +9,10 @@
         "*://github.com/*"
       ],
       "js": [
-        "content_scripts.js"
+        "index.js"
+      ],
+      "css": [
+        "index.css"
       ]
     }
   ]
