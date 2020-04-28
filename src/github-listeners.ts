@@ -2,7 +2,7 @@
  * Utility methods for GithubListener
  */
 import {GithubListener} from "./github-listener"
-import {GithubIssuePageListener} from "./github-issue-page-listener"
+import {GithubIssuesPageListener} from "./github-issues-page-listener"
 
 /**
  * Instantiate GithubListener
@@ -14,9 +14,13 @@ export const newGithubListener = (): GithubListener | null => {
     switch (currentPage()) {
         case GithubPage.RepositoryIssueList:
         case GithubPage.UserIssues:
-            return new GithubIssuePageListener()
-        // case GithubPage.RepositoryPullRequest:
-        //   return new PullRequestPageListener()
+        /**
+         * It turned out the structure of the pull request list is essentially the
+         * same as the issue list
+         */
+        case GithubPage.RepositoryPullRequestList:
+        case GithubPage.UserPullRequests:
+            return new GithubIssuesPageListener()
     }
     return null
 }
@@ -38,9 +42,17 @@ enum GithubPage {
     /**
      * https://github.com/issues
      */
-    UserIssues
+    UserIssues,
 
-    // RepositoryPullRequest
+    /**
+     * https://github.com/:org/:project/pulls
+     */
+    RepositoryPullRequestList,
+
+    /**
+     * https://github.com/pulls
+     */
+    UserPullRequests
 }
 
 const currentPage = (): GithubPage | null => {
@@ -48,6 +60,9 @@ const currentPage = (): GithubPage | null => {
 
     if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
     if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues
-    // if (paths.length >= 4 && paths[3].endsWith('pulls')) return GithubPage.RepositoryPullRequest
+
+    if (paths.length >= 4 && paths[3].endsWith('pulls')) return GithubPage.RepositoryPullRequestList
+    if (paths.length >= 2 && paths[1].endsWith('pulls')) return GithubPage.UserPullRequests
+
     return null
 }

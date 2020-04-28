@@ -5,7 +5,7 @@ import {getQueryParams, setQueryParams} from "./utils";
 /**
  * Event listener for Github issue list component
  */
-export class GithubIssuePageListener implements GithubListener {
+export class GithubIssuesPageListener implements GithubListener {
 
     /**
      * HTML Attribute that contains total page number
@@ -60,13 +60,13 @@ export class GithubIssuePageListener implements GithubListener {
     constructor() {
         this.currentIssue = 0
         this.issues = document
-            .querySelectorAll(`${GithubIssuePageListener.ISSUE_LIST_SELECTOR}`)
+            .querySelectorAll(`${GithubIssuesPageListener.ISSUE_LIST_SELECTOR}`)
         this.totalIssue = this.issues.length
         this.totalPage = parseInt(document
-            .querySelector(`[${GithubIssuePageListener.TOTAL_PAGE_ATTRIBUTE}]`)
-            ?.getAttribute(GithubIssuePageListener.TOTAL_PAGE_ATTRIBUTE) || '0')
+            .querySelector(`[${GithubIssuesPageListener.TOTAL_PAGE_ATTRIBUTE}]`)
+            ?.getAttribute(GithubIssuesPageListener.TOTAL_PAGE_ATTRIBUTE) || '0')
         this.currentPage = parseInt(getQueryParams()
-            .get(GithubIssuePageListener.PAGE_QUERY_PARAM) || '1')
+            .get(GithubIssuesPageListener.PAGE_QUERY_PARAM) || '1')
         this.focusOn(this.currentIssue)
     }
 
@@ -87,14 +87,14 @@ export class GithubIssuePageListener implements GithubListener {
     public right(e: Event): void {
         if (!this.hasNextPage()) return
         let param = new Map<string, string>()
-        param.set(GithubIssuePageListener.PAGE_QUERY_PARAM, (this.currentPage + 1).toString())
+        param.set(GithubIssuesPageListener.PAGE_QUERY_PARAM, (this.currentPage + 1).toString())
         setQueryParams(param)
     }
 
     public left(e: Event): void {
         if (!this.hasPrevPage()) return
         let param = new Map<string, string>()
-        param.set(GithubIssuePageListener.PAGE_QUERY_PARAM, (this.currentPage - 1).toString())
+        param.set(GithubIssuesPageListener.PAGE_QUERY_PARAM, (this.currentPage - 1).toString())
         setQueryParams(param)
     }
 
@@ -123,12 +123,12 @@ export class GithubIssuePageListener implements GithubListener {
         let height = window.innerHeight
         let y: number = this.issues[issueIndex].getBoundingClientRect().y
 
-        if (y < GithubIssuePageListener.SCROLL_CHECK_MARGIN_PX) {
+        if (y < GithubIssuesPageListener.SCROLL_CHECK_MARGIN_PX) {
             this.issues[issueIndex].scrollIntoView({block: 'center'})
             return;
         }
 
-        if (y > height - GithubIssuePageListener.SCROLL_CHECK_MARGIN_PX) {
+        if (y > height - GithubIssuesPageListener.SCROLL_CHECK_MARGIN_PX) {
             this.issues[issueIndex].scrollIntoView({block: 'center'})
             return;
         }
@@ -136,14 +136,14 @@ export class GithubIssuePageListener implements GithubListener {
 
     private focusOn(issueIndex: number) {
         if (issueIndex < 0 || issueIndex > this.totalIssue) return
-        this.issues[issueIndex].classList.add(GithubIssuePageListener.ACTIVE_ISSUE_CLASS)
+        this.issues[issueIndex].classList.add(GithubIssuesPageListener.ACTIVE_ISSUE_CLASS)
 
         this.centralizeIfNeeded(issueIndex)
     }
 
     private focusOut(issueIndex: number) {
         if (issueIndex < 0 || issueIndex > this.totalIssue) return
-        this.issues[issueIndex].classList.remove(GithubIssuePageListener.ACTIVE_ISSUE_CLASS)
+        this.issues[issueIndex].classList.remove(GithubIssuesPageListener.ACTIVE_ISSUE_CLASS)
     }
 
     private getCurrentIssueLink(): string {
