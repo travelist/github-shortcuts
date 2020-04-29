@@ -119,3 +119,4 @@ dist
 # chrome extention
 *.crx
 *.pem
+*.zip
