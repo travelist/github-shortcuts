@@ -1,4 +1,6 @@
-# Github Shortcuts
+# Github Shortcuts [![travelist/github-shortcuts](https://circleci.com/gh/travelist/github-shortcuts.svg?style=svg)](https://app.circleci.com/pipelines/github/travelist/github-shortcuts)
+
+
 
 Chrome extension to select pull requests and issues by keyboard commands.
 

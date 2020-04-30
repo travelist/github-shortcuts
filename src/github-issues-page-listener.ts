@@ -1,6 +1,5 @@
 import {GithubListener} from './github-listener'
 import {getQueryParams, setQueryParams} from "./utils";
-import {reportTranspileErrors} from "ts-loader/dist/instances";
 
 
 /**
@@ -11,32 +10,32 @@ export class GithubIssuesPageListener implements GithubListener {
     /**
      * HTML Attribute that contains total page number
      */
-    private static TOTAL_PAGE_ATTRIBUTE: string = 'data-total-pages'
+    private static readonly TOTAL_PAGE_ATTRIBUTE: string = 'data-total-pages'
 
     /**
      * CSS Selector for retrieving issue items
      */
-    private static ISSUE_LIST_SELECTOR: string = 'div[id^=issue_]'
+    private static readonly ISSUE_LIST_SELECTOR: string = 'div[id^=issue_]'
 
     /**
      * Query parameter that indicates the current page
      */
-    private static PAGE_QUERY_PARAM: string = 'page'
+    private static readonly PAGE_QUERY_PARAM: string = 'page'
 
     /**
      * Class name for active issue item
      */
-    private static ACTIVE_ISSUE_CLASS: string = 'github-shortcuts-active'
+    private static readonly ACTIVE_ISSUE_CLASS: string = 'github-shortcuts-active'
 
     /**
      * Margin to detect the necessity of scrolling
      */
-    private static SCROLL_CHECK_MARGIN_PX: number = 50
+    private static readonly SCROLL_CHECK_MARGIN_PX: number = 50
 
     /**
      * Tags that disables this extension when they are active
      */
-    private static DISABLE_EXTENSION_TAGS: string[] = [
+    private static readonly DISABLE_EXTENSION_TAGS: string[] = [
         'input', 'select', 'button', 'textarea'
     ]
 
