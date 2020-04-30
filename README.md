@@ -27,5 +27,5 @@ MIT
 ## New Features / Bug Reports
 
 Please request them via the issue page. The initial purpose of this extension
-was to provide keyboard commands to issues pages and pull request pages, but
+was to provide keyboard commands to the issue pages and the pull request pages, but
 there is no limitation that narrows down into these scopes.
