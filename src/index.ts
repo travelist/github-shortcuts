@@ -7,6 +7,11 @@ import {isSupportedPage, newGithubListener} from "./github-listeners"
  * 3. wait for user events
  */
 const main = async () => {
+    loadExtension()
+    window.addEventListener('popstate', loadExtension)
+}
+
+const loadExtension = () => {
 
     if (!isSupportedPage()) return
 

@@ -67,7 +67,7 @@ export class GithubIssuesPageListener implements GithubListener {
             ?.getAttribute(GithubIssuesPageListener.TOTAL_PAGE_ATTRIBUTE) || '0')
         this.currentPage = parseInt(getQueryParams()
             .get(GithubIssuesPageListener.PAGE_QUERY_PARAM) || '1')
-        this.focusOn(this.currentIssue)
+        if (this.hasIssues()) this.focusOn(this.currentIssue)
     }
 
     public up(e: Event): void {
@@ -150,5 +150,9 @@ export class GithubIssuesPageListener implements GithubListener {
         let issueATagId = `a[id=${this.issues[this.currentIssue].id}_link]`
         let aTag = document.querySelector(issueATagId)
         return aTag?.getAttribute('href') || ''
+    }
+
+    private hasIssues(): boolean {
+        return this.issues instanceof NodeList && this.issues.length > 0
     }
 }
