@@ -2,7 +2,7 @@
 
 Chrome extension to select pull requests and issues by keyboard commands.
 
-**Installation** [Chrome Web Store]()
+**Installation** [Chrome Web Store](https://chrome.google.com/webstore/detail/pdeaikmjefgminiagmbdhjlmoaoobbjc/publish-accepted?authuser=0&hl=en)
 
 **Supported Commands**
 
