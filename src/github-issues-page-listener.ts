@@ -1,5 +1,6 @@
 import {GithubListener} from './github-listener'
 import {getQueryParams, setQueryParams} from "./utils";
+import {reportTranspileErrors} from "ts-loader/dist/instances";
 
 
 /**
@@ -31,6 +32,13 @@ export class GithubIssuesPageListener implements GithubListener {
      * Margin to detect the necessity of scrolling
      */
     private static SCROLL_CHECK_MARGIN_PX: number = 50
+
+    /**
+     * Tags that disables this extension when they are active
+     */
+    private static DISABLE_EXTENSION_TAGS: string[] = [
+        'input', 'select', 'button', 'textarea'
+    ]
 
     /**
      * total issue pages
@@ -71,6 +79,7 @@ export class GithubIssuesPageListener implements GithubListener {
     }
 
     public up(e: Event): void {
+        if (!this.isValidAction()) return
         e.preventDefault()
         if (!this.hasPrevIssue()) return
         this.focusOut(this.currentIssue)
@@ -78,6 +87,7 @@ export class GithubIssuesPageListener implements GithubListener {
     }
 
     public down(e: Event): void {
+        if (!this.isValidAction()) return
         e.preventDefault()
         if (!this.hasNextIssue()) return
         this.focusOut(this.currentIssue)
@@ -85,6 +95,7 @@ export class GithubIssuesPageListener implements GithubListener {
     }
 
     public right(e: Event): void {
+        if (!this.isValidAction()) return
         if (!this.hasNextPage()) return
         let param = new Map<string, string>()
         param.set(GithubIssuesPageListener.PAGE_QUERY_PARAM, (this.currentPage + 1).toString())
@@ -92,6 +103,7 @@ export class GithubIssuesPageListener implements GithubListener {
     }
 
     public left(e: Event): void {
+        if (!this.isValidAction()) return
         if (!this.hasPrevPage()) return
         let param = new Map<string, string>()
         param.set(GithubIssuesPageListener.PAGE_QUERY_PARAM, (this.currentPage - 1).toString())
@@ -99,6 +111,7 @@ export class GithubIssuesPageListener implements GithubListener {
     }
 
     public enter(e: Event): void {
+        if (!this.isValidAction()) return
         location.href = this.getCurrentIssueLink()
     }
 
@@ -154,5 +167,12 @@ export class GithubIssuesPageListener implements GithubListener {
 
     private hasIssues(): boolean {
         return this.issues instanceof NodeList && this.issues.length > 0
+    }
+
+    private isValidAction(): boolean {
+        const a = document.activeElement
+        if (a == null) return true
+        return GithubIssuesPageListener.DISABLE_EXTENSION_TAGS
+            .indexOf(a.tagName.toLowerCase()) === -1;
     }
 }
