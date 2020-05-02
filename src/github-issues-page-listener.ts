@@ -77,7 +77,27 @@ export class GithubIssuesPageListener implements GithubListener {
         if (this.hasIssues()) this.focusOn(this.currentIssue)
     }
 
-    public up(e: Event): void {
+    handleKeydown(e: KeyboardEvent): void {
+        switch (e.key) {
+            case 'ArrowUp':
+                this.up(e)
+                break
+            case 'ArrowRight': // TODO To be removed
+                this.right(e)
+                break
+            case 'ArrowDown': // TODO To be removed
+                this.down(e)
+                break
+            case 'ArrowLeft':
+                this.left(e)
+                break
+            case 'Enter':
+                this.enter(e)
+                break
+        }
+    }
+
+    private up(e: Event): void {
         if (!this.isValidAction()) return
         e.preventDefault()
         if (!this.hasPrevIssue()) return
@@ -85,7 +105,7 @@ export class GithubIssuesPageListener implements GithubListener {
         this.focusOn(--this.currentIssue)
     }
 
-    public down(e: Event): void {
+    private down(e: Event): void {
         if (!this.isValidAction()) return
         e.preventDefault()
         if (!this.hasNextIssue()) return
@@ -93,7 +113,7 @@ export class GithubIssuesPageListener implements GithubListener {
         this.focusOn(++this.currentIssue)
     }
 
-    public right(e: Event): void {
+    private right(e: Event): void {
         if (!this.isValidAction()) return
         if (!this.hasNextPage()) return
         let param = new Map<string, string>()
@@ -101,7 +121,7 @@ export class GithubIssuesPageListener implements GithubListener {
         setQueryParams(param)
     }
 
-    public left(e: Event): void {
+    private left(e: Event): void {
         if (!this.isValidAction()) return
         if (!this.hasPrevPage()) return
         let param = new Map<string, string>()
@@ -109,7 +129,7 @@ export class GithubIssuesPageListener implements GithubListener {
         setQueryParams(param)
     }
 
-    public enter(e: Event): void {
+    private enter(e: Event): void {
         if (!this.isValidAction()) return
         location.href = this.getCurrentIssueLink()
     }

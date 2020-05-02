@@ -12,30 +12,9 @@ const main = async () => {
 }
 
 const loadExtension = () => {
-
     if (!isSupportedPage()) return
-
     let listener = newGithubListener()
-
-    document.onkeydown = (e: KeyboardEvent) => {
-        switch (e.key) {
-            case 'ArrowUp':
-                listener?.up(e)
-                break
-            case 'ArrowRight':
-                listener?.right(e)
-                break
-            case 'ArrowDown':
-                listener?.down(e)
-                break
-            case 'ArrowLeft':
-                listener?.left(e)
-                break
-            case 'Enter':
-                listener?.enter(e)
-                break
-        }
-    }
+    document.onkeydown = (e: KeyboardEvent) => listener?.handleKeydown(e)
 }
 
 main()
