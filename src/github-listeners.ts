@@ -77,10 +77,8 @@ enum GithubPage {
 const currentPage = (): GithubPage | null => {
     const paths = window.location.pathname.split('/')
 
-    if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
-
-    // if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
-    // if (paths.length >= 5 && paths[3].endsWith('pulls')) return GithubPage.PullRequest
+    if (paths.length >= 5 && paths[3].endsWith('issues')) return null // GithubPage.Issue
+    if (paths.length >= 5 && paths[3].endsWith('pulls')) return null  // GithubPage.PullRequest
 
     if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
     if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues
