@@ -3,6 +3,7 @@
  */
 import {GithubListener} from "./github-listener"
 import {GithubIssuesPageListener} from "./github-issues-page-listener"
+import {GithubHomeListener} from "./github-home-listener";
 
 /**
  * Instantiate GithubListener
@@ -21,7 +22,10 @@ export const newGithubListener = (): GithubListener | null => {
         case GithubPage.RepositoryPullRequestList:
         case GithubPage.UserPullRequests:
             return new GithubIssuesPageListener()
+        case GithubPage.Home:
+            return new GithubHomeListener()
     }
+
     return null
 }
 
@@ -54,28 +58,37 @@ enum GithubPage {
      */
     UserPullRequests,
 
-    /**
-     * https://github.com/:org/:project/issues/:id
-     */
-    Issue,
+    // /**
+    //  * https://github.com/:org/:project/issues/:id
+    //  */
+    // Issue,
+    //
+    // /**
+    //  * https://github.com/:org/:project/pulls/:id
+    //  */
+    // PullRequest,
 
     /**
-     * https://github.com/:org/:project/pulls/:id
+     * https://github.com/
      */
-    PullRequest
+    Home,
 }
 
 const currentPage = (): GithubPage | null => {
     const paths = window.location.pathname.split('/')
 
-    if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
-    if (paths.length >= 5 && paths[3].endsWith('pulls')) return GithubPage.PullRequest
+    if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
+
+    // if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
+    // if (paths.length >= 5 && paths[3].endsWith('pulls')) return GithubPage.PullRequest
 
     if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
     if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues
 
     if (paths.length >= 4 && paths[3].endsWith('pulls')) return GithubPage.RepositoryPullRequestList
     if (paths.length >= 2 && paths[1].endsWith('pulls')) return GithubPage.UserPullRequests
+
+    if (paths.length >= 2 && paths[1] == '') return GithubPage.Home
 
     return null
 }
