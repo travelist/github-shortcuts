@@ -93,7 +93,6 @@ export class GithubHomeListener extends GithubListener {
             return;
         }
         if (this.isFocusingOnShowMoreButton) return;
-
         if (!this.hasNextItem()) return
         this.focusOut(this.currentItem)
         this.focusOn(++this.currentItem)
@@ -178,6 +177,10 @@ export class GithubHomeListener extends GithubListener {
 
     private getCurrentItemLink(): string {
         let itemATagSelector = `${GithubHomeListener.ACTIVITY_LIST_SELECTOR}:nth-child(${this.currentItem + 1}) > a`
+        if (this.isDetailExpanded && this.currentItem - this.hiddenItems.length >= 0) {
+            let index: number = this.currentItem - this.hiddenItems.length + 1
+            itemATagSelector = `${GithubHomeListener.ACTIVITY_LIST_HIDDEN_ITEM_SELECTOR}:nth-child(${index}) > a`
+        }
         let aTag = document.querySelector(itemATagSelector)
         return aTag?.getAttribute('href') || ''
     }

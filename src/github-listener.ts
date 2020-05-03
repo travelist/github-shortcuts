@@ -5,7 +5,6 @@ export abstract class GithubListener {
 
     /**
      * Class name for active list item
-     * TODO Remove '-legacy' suffix
      */
     protected static readonly ACTIVE_LIST_ITEM_CLASS: string = 'github-shortcuts-active'
 
