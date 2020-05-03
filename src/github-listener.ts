@@ -1,30 +1,60 @@
 /**
  * Methods that all event listeners need to implement
  */
-export interface GithubListener {
+export abstract class GithubListener {
 
     /**
-     * handler for up keydown event
+     * Class name for active list item
+     * TODO Remove '-legacy' suffix
      */
-    up(e: Event): void
+    protected static readonly ACTIVE_LIST_ITEM_CLASS: string = 'github-shortcuts-active'
 
     /**
-     * handler for down keydown event
+     * Tags that disables this extension when they are active
      */
-    down(e: Event): void
+    protected static readonly INPUT_WAITING_TAGS: string[] = [
+        'input', 'select', 'button', 'textarea'
+    ]
 
     /**
-     * handler for right keydown event
+     * Margin to detect the necessity of scrolling
      */
-    right(e: Event): void
+    protected static readonly SCROLL_CHECK_MARGIN_PX: number = 50
 
     /**
-     * handler for left keydown event
+     * handleKeydown
      */
-    left(e: Event): void
+    public abstract handleKeydown(e: KeyboardEvent): void
 
     /**
-     * handler for enter keydown event
+     * Scroll a browser to centralize the given element if any of the following conditions are met:
+     * - the content is out of the current window
+     * - the content is located within SCROLL_CHECK_MARGIN_PX of the edge of browser
      */
-    enter(e: Event): void
+    protected centralizeIfNeeded(element: Element): boolean {
+        let height = window.innerHeight
+        let y: number = element.getBoundingClientRect().y
+
+        if (y < GithubListener.SCROLL_CHECK_MARGIN_PX) {
+            element.scrollIntoView({block: 'center'})
+            return true
+        }
+
+        if (y > height - GithubListener.SCROLL_CHECK_MARGIN_PX) {
+            element.scrollIntoView({block: 'center'})
+            return true
+        }
+
+        return false
+    }
+
+    /**
+     * return true when any of input tags is active state
+     */
+    protected isInputTagActive(): boolean {
+        const a = document.activeElement
+        if (a == null) return true
+        return GithubListener.INPUT_WAITING_TAGS
+            .indexOf(a.tagName.toLowerCase()) !== -1;
+    }
 }

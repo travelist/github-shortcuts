@@ -5,7 +5,7 @@ import {getQueryParams, setQueryParams} from "./utils";
 /**
  * Event listener for Github issue list component
  */
-export class GithubIssuesPageListener implements GithubListener {
+export class GithubIssuesPageListener extends GithubListener {
 
     /**
      * HTML Attribute that contains total page number
@@ -21,23 +21,6 @@ export class GithubIssuesPageListener implements GithubListener {
      * Query parameter that indicates the current page
      */
     private static readonly PAGE_QUERY_PARAM: string = 'page'
-
-    /**
-     * Class name for active issue item
-     */
-    private static readonly ACTIVE_ISSUE_CLASS: string = 'github-shortcuts-active'
-
-    /**
-     * Margin to detect the necessity of scrolling
-     */
-    private static readonly SCROLL_CHECK_MARGIN_PX: number = 50
-
-    /**
-     * Tags that disables this extension when they are active
-     */
-    private static readonly DISABLE_EXTENSION_TAGS: string[] = [
-        'input', 'select', 'button', 'textarea'
-    ]
 
     /**
      * total issue pages
@@ -65,6 +48,7 @@ export class GithubIssuesPageListener implements GithubListener {
     private issues: NodeListOf<HTMLElement>
 
     constructor() {
+        super()
         this.currentIssue = 0
         this.issues = document
             .querySelectorAll(`${GithubIssuesPageListener.ISSUE_LIST_SELECTOR}`)
@@ -77,7 +61,27 @@ export class GithubIssuesPageListener implements GithubListener {
         if (this.hasIssues()) this.focusOn(this.currentIssue)
     }
 
-    public up(e: Event): void {
+    handleKeydown(e: KeyboardEvent): void {
+        switch (e.key) {
+            case 'ArrowUp':
+                this.up(e)
+                break
+            case 'ArrowRight': // TODO To be removed
+                this.right(e)
+                break
+            case 'ArrowDown': // TODO To be removed
+                this.down(e)
+                break
+            case 'ArrowLeft':
+                this.left(e)
+                break
+            case 'Enter':
+                this.enter(e)
+                break
+        }
+    }
+
+    private up(e: Event): void {
         if (!this.isValidAction()) return
         e.preventDefault()
         if (!this.hasPrevIssue()) return
@@ -85,7 +89,7 @@ export class GithubIssuesPageListener implements GithubListener {
         this.focusOn(--this.currentIssue)
     }
 
-    public down(e: Event): void {
+    private down(e: Event): void {
         if (!this.isValidAction()) return
         e.preventDefault()
         if (!this.hasNextIssue()) return
@@ -93,7 +97,7 @@ export class GithubIssuesPageListener implements GithubListener {
         this.focusOn(++this.currentIssue)
     }
 
-    public right(e: Event): void {
+    private right(e: Event): void {
         if (!this.isValidAction()) return
         if (!this.hasNextPage()) return
         let param = new Map<string, string>()
@@ -101,7 +105,7 @@ export class GithubIssuesPageListener implements GithubListener {
         setQueryParams(param)
     }
 
-    public left(e: Event): void {
+    private left(e: Event): void {
         if (!this.isValidAction()) return
         if (!this.hasPrevPage()) return
         let param = new Map<string, string>()
@@ -109,7 +113,7 @@ export class GithubIssuesPageListener implements GithubListener {
         setQueryParams(param)
     }
 
-    public enter(e: Event): void {
+    private enter(e: Event): void {
         if (!this.isValidAction()) return
         location.href = this.getCurrentIssueLink()
     }
@@ -130,32 +134,15 @@ export class GithubIssuesPageListener implements GithubListener {
         return this.currentIssue > 0
     }
 
-    private centralizeIfNeeded(issueIndex: number) {
-        if (issueIndex < 0 || issueIndex > this.totalIssue) return
-        let height = window.innerHeight
-        let y: number = this.issues[issueIndex].getBoundingClientRect().y
-
-        if (y < GithubIssuesPageListener.SCROLL_CHECK_MARGIN_PX) {
-            this.issues[issueIndex].scrollIntoView({block: 'center'})
-            return;
-        }
-
-        if (y > height - GithubIssuesPageListener.SCROLL_CHECK_MARGIN_PX) {
-            this.issues[issueIndex].scrollIntoView({block: 'center'})
-            return;
-        }
-    }
-
     private focusOn(issueIndex: number) {
         if (issueIndex < 0 || issueIndex > this.totalIssue) return
-        this.issues[issueIndex].classList.add(GithubIssuesPageListener.ACTIVE_ISSUE_CLASS)
-
-        this.centralizeIfNeeded(issueIndex)
+        this.issues[issueIndex].classList.add(GithubListener.ACTIVE_LIST_ITEM_CLASS)
+        this.centralizeIfNeeded(this.issues[issueIndex])
     }
 
     private focusOut(issueIndex: number) {
         if (issueIndex < 0 || issueIndex > this.totalIssue) return
-        this.issues[issueIndex].classList.remove(GithubIssuesPageListener.ACTIVE_ISSUE_CLASS)
+        this.issues[issueIndex].classList.remove(GithubListener.ACTIVE_LIST_ITEM_CLASS)
     }
 
     private getCurrentIssueLink(): string {
@@ -169,9 +156,6 @@ export class GithubIssuesPageListener implements GithubListener {
     }
 
     private isValidAction(): boolean {
-        const a = document.activeElement
-        if (a == null) return true
-        return GithubIssuesPageListener.DISABLE_EXTENSION_TAGS
-            .indexOf(a.tagName.toLowerCase()) === -1;
+        return !this.isInputTagActive()
     }
 }
