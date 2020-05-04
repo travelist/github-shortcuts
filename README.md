@@ -1,26 +1,76 @@
 # Github Shortcuts [![travelist/github-shortcuts](https://circleci.com/gh/travelist/github-shortcuts.svg?style=svg)](https://app.circleci.com/pipelines/github/travelist/github-shortcuts)
 
-
-
-Chrome extension to select pull requests and issues by keyboard commands.
+Chrome extension to provide keyboard shortcuts for Github.
 
 **Installation** [Chrome Web Store](https://chrome.google.com/webstore/detail/pdeaikmjefgminiagmbdhjlmoaoobbjc)
 
 **Supported Commands**
 
+<table>
+  <tr>
+    <th width="50%">
+      Recent activity
+    </th>
+    <th width="50%">
+      Issue Comments
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-recent-activity.gif"/>
+    </td>
+    <td>
+      <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-timeline.gif"/>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th width="50%">
+      Issue List
+    </th>
+    <th width="50%">
+      Future
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-list.gif"/>
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
+  
+**Recent Activity**
+
 | command | description |
-|---------|-------------|
-| <kbd>↑</kbd> | move the current focus above |
-| <kbd>↓</kbd> | move the current focus bellow |
-| <kbd>→</kbd> | move to the next page |
-| <kbd>←</kbd> | move to the previous page |
+|-----------|-------------|
+| <key>j</key> | go down |
+| <key>k</key> | go up |
 | <kbd>Enter</kbd> | move to the item |
 
-At `pull requests` and `issues` pages.
+**Issue Comments**
 
-## Demo
+| command | description |
+|-----------|-------------|
+| <key>j</key> | go down |
+| <key>k</key> | go up |
+| <key>e</key> | edit comment |
+| <key>n</key> | go new comment form |
+| <key>+</key> OR <key>=</key> | 👍 |
+| <key>-</key> | 👎  |   
 
-![Alt text](https://github.com/travelist/github-shortcuts/raw/master/etc/demo.gif)
+**Issue & Pull Request Lists**
+
+| command | description |
+|---------|-------------|
+| <kbd>↑</kbd> | move the current focus above (**TO BE REMOVED**) |
+| <kbd>↓</kbd> | move the current focus bellow (**TO BE REMOVED**) |
+| <kbd>→</kbd> | move to the next page |
+| <kbd>←</kbd> | move to the previous page |
+| <kbd>Enter</kbd> | move to the item (**TO BE REMOVED**) |
 
 ## LICENSE
 
