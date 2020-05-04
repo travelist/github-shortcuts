@@ -20,7 +20,7 @@ At `pull requests` and `issues` pages.
 
 ## Demo
 
-![Alt text](https://github.com/travelist/github-shortcuts/raw/master/etc/demo.gif)
+![Alt text](https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-list.gif)
 
 ## LICENSE
 

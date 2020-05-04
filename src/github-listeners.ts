@@ -1,9 +1,10 @@
 /**
- * Utility methods for GithubListener
+ * Utility methods related to GithubListener
  */
 import {GithubListener} from "./github-listener"
-import {GithubIssuesPageListener} from "./github-issues-page-listener"
+import {GithubIssuesListener} from "./github-issues-listener"
 import {GithubHomeListener} from "./github-home-listener";
+import {GithubCommentListener} from "./github-comment-listener";
 
 /**
  * Instantiate GithubListener
@@ -13,6 +14,9 @@ import {GithubHomeListener} from "./github-home-listener";
  */
 export const newGithubListener = (): GithubListener | null => {
     switch (currentPage()) {
+        case GithubPage.Issue:
+        case GithubPage.PullRequest:
+            return new GithubCommentListener()
         case GithubPage.RepositoryIssueList:
         case GithubPage.UserIssues:
         /**
@@ -21,7 +25,7 @@ export const newGithubListener = (): GithubListener | null => {
          */
         case GithubPage.RepositoryPullRequestList:
         case GithubPage.UserPullRequests:
-            return new GithubIssuesPageListener()
+            return new GithubIssuesListener()
         case GithubPage.Home:
             return new GithubHomeListener()
     }
@@ -58,15 +62,15 @@ enum GithubPage {
      */
     UserPullRequests,
 
-    // /**
-    //  * https://github.com/:org/:project/issues/:id
-    //  */
-    // Issue,
+    /**
+     * https://github.com/:org/:project/issues/:id
+     */
+    Issue,
     //
-    // /**
-    //  * https://github.com/:org/:project/pulls/:id
-    //  */
-    // PullRequest,
+    /**
+     * https://github.com/:org/:project/pulls/:id
+     */
+    PullRequest,
 
     /**
      * https://github.com/
@@ -77,8 +81,8 @@ enum GithubPage {
 const currentPage = (): GithubPage | null => {
     const paths = window.location.pathname.split('/')
 
-    if (paths.length >= 5 && paths[3].endsWith('issues')) return null // GithubPage.Issue
-    if (paths.length >= 5 && paths[3].endsWith('pulls')) return null  // GithubPage.PullRequest
+    if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
+    if (paths.length >= 5 && paths[3].endsWith('pulls')) return GithubPage.PullRequest
 
     if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
     if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues

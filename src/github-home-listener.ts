@@ -1,5 +1,8 @@
 import {GithubListener} from "./github-listener"
 
+/**
+ * Event listener for Github activity list component
+ */
 export class GithubHomeListener extends GithubListener {
 
     /**
@@ -177,8 +180,8 @@ export class GithubHomeListener extends GithubListener {
 
     private getCurrentItemLink(): string {
         let itemATagSelector = `${GithubHomeListener.ACTIVITY_LIST_SELECTOR}:nth-child(${this.currentItem + 1}) > a`
-        if (this.isDetailExpanded && this.currentItem - this.hiddenItems.length >= 0) {
-            let index: number = this.currentItem - this.hiddenItems.length + 1
+        if (this.isDetailExpanded && this.currentItem - (this.totalItem - this.hiddenItems.length) >= 0) {
+            let index: number = this.currentItem - (this.totalItem - this.hiddenItems.length) + 1
             itemATagSelector = `${GithubHomeListener.ACTIVITY_LIST_HIDDEN_ITEM_SELECTOR}:nth-child(${index}) > a`
         }
         let aTag = document.querySelector(itemATagSelector)

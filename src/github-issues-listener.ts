@@ -5,7 +5,7 @@ import {getQueryParams, setQueryParams} from "./utils";
 /**
  * Event listener for Github issue list component
  */
-export class GithubIssuesPageListener extends GithubListener {
+export class GithubIssuesListener extends GithubListener {
 
     /**
      * HTML Attribute that contains total page number
@@ -51,13 +51,13 @@ export class GithubIssuesPageListener extends GithubListener {
         super()
         this.currentIssue = 0
         this.issues = document
-            .querySelectorAll(`${GithubIssuesPageListener.ISSUE_LIST_SELECTOR}`)
+            .querySelectorAll(`${GithubIssuesListener.ISSUE_LIST_SELECTOR}`)
         this.totalIssue = this.issues.length
         this.totalPage = parseInt(document
-            .querySelector(`[${GithubIssuesPageListener.TOTAL_PAGE_ATTRIBUTE}]`)
-            ?.getAttribute(GithubIssuesPageListener.TOTAL_PAGE_ATTRIBUTE) || '0')
+            .querySelector(`[${GithubIssuesListener.TOTAL_PAGE_ATTRIBUTE}]`)
+            ?.getAttribute(GithubIssuesListener.TOTAL_PAGE_ATTRIBUTE) || '0')
         this.currentPage = parseInt(getQueryParams()
-            .get(GithubIssuesPageListener.PAGE_QUERY_PARAM) || '1')
+            .get(GithubIssuesListener.PAGE_QUERY_PARAM) || '1')
         if (this.hasIssues()) this.focusOn(this.currentIssue)
     }
 
@@ -101,7 +101,7 @@ export class GithubIssuesPageListener extends GithubListener {
         if (!this.isValidAction()) return
         if (!this.hasNextPage()) return
         let param = new Map<string, string>()
-        param.set(GithubIssuesPageListener.PAGE_QUERY_PARAM, (this.currentPage + 1).toString())
+        param.set(GithubIssuesListener.PAGE_QUERY_PARAM, (this.currentPage + 1).toString())
         setQueryParams(param)
     }
 
@@ -109,7 +109,7 @@ export class GithubIssuesPageListener extends GithubListener {
         if (!this.isValidAction()) return
         if (!this.hasPrevPage()) return
         let param = new Map<string, string>()
-        param.set(GithubIssuesPageListener.PAGE_QUERY_PARAM, (this.currentPage - 1).toString())
+        param.set(GithubIssuesListener.PAGE_QUERY_PARAM, (this.currentPage - 1).toString())
         setQueryParams(param)
     }
 
