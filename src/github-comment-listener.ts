@@ -40,6 +40,7 @@ export class GithubCommentListener extends GithubListener {
     }
 
     public handleKeydown(e: KeyboardEvent): void {
+        if (this.isInputTagActive()) return
         switch (e.key) {
             case 'j':
                 this.j(e)
