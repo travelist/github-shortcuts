@@ -42,7 +42,7 @@ Chrome extension to provide keyboard shortcuts for Github.
     </td>
   </tr>
 </table>
-  
+
 **Recent Activity**
 
 | command | description |
@@ -60,14 +60,12 @@ Chrome extension to provide keyboard shortcuts for Github.
 | <key>e</key> | edit comment |
 | <key>n</key> | go new comment form |
 | <key>+</key> OR <key>=</key> | 👍 |
-| <key>-</key> | 👎  |   
+| <key>-</key> | 👎  |
 
 **Issue & Pull Request Lists**
 
 | command | description |
 |---------|-------------|
-| <kbd>↑</kbd> | move the current focus above (**TO BE REMOVED**) |
-| <kbd>↓</kbd> | move the current focus bellow (**TO BE REMOVED**) |
 | <kbd>→</kbd> | move to the next page |
 | <kbd>←</kbd> | move to the previous page |
 | <kbd>Enter</kbd> | move to the item (**TO BE REMOVED**) |
