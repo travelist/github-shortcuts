@@ -16,63 +16,177 @@ Chrome extension to provide keyboard shortcuts for Github.
     </th>
   </tr>
   <tr>
-    <td>
+    <td colspan="2">
       <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-recent-activity.gif"/>
     </td>
-    <td>
+    <td colspan="2">
       <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-timeline.gif"/>
     </td>
   </tr>
+
   <tr>
+    <!-- Recent activity -->
     <td>
+      <kbd>k</kbd>
+    </td>
+    <td>
+      go up
+    </td>
+    <!-- Issue Comments -->
+    <td>
+      <kbd>k</kbd>
+    </td>
+    <td>
+      go up
+    </td>
+  </tr>
+
+  <tr>
+    <!-- Recent activity -->
+    <td>
+      <kbd>j</kbd>
+    </td>
+    <td>
+      go down
+    </td>
+    <!-- Issue Comments -->
+    <td>
+      <kbd>j</kbd>
+    </td>
+    <td>
+      go down
+    </td>
+  </tr>
+
+  <tr>
+    <!-- Recent activity -->
+    <td>
+      <kbd>Enter</kbd>
+    </td>
+    <td>
+      move to the item
+    </td>
+    <!-- Issue Comments -->
+    <td>
+      <kbd>e</kbd>
+    </td>
+    <td>
+      edit comment
+    </td>
+  </tr>
+  <tr>
+    <!-- Recent activity -->
+    <td>
+    </td>
+    <td>
+    </td>
+    <!-- Issue Comments -->
+    <td>
+      <kbd>n</kbd>
+    </td>
+    <td>
+      go new comment form
+    </td>
+  </tr>
+  <tr>
+    <!-- Recent activity -->
+    <td>
+    </td>
+    <td>
+    </td>
+    <!-- Issue Comments -->
+    <td>
+      <kbd>+</kbd> OR <kbd>=</kbd>
+    </td>
+    <td>
+      👍
+    </td>
+  </tr>
+  <tr>
+    <!-- Recent activity -->
+    <td>
+    </td>
+    <td>
+    </td>
+    <!-- Issue Comments -->
+    <td>
+      <kbd>-</kbd>
+    </td>
+    <td>
+      👎
     </td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <th width="50%">
+    <th width="50%" colspan="2">
       Issue List
     </th>
-    <th width="50%">
-      Future
+    <th width="50%" colspan="2">
+      File Diff
     </th>
   </tr>
   <tr>
-    <td>
+    <td colspan="2">
       <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-list.gif"/>
     </td>
+    <td colspan="2">
+      <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-file-diff.gif"/>
+    </td>
+  </tr>
+
+  <tr>
+    <!-- Issue / Pull Request List -->
     <td>
+      <kbd>→</kbd>
+    </td>
+    <td>
+      move to the next page
+    </td>
+    <!-- File Diff -->
+    <td>
+      <kbd>k</kbd>
+    </td>
+    <td>
+      go up
+    </td>
+  </tr>
+
+  <tr>
+    <!-- Issue / Pull Request List -->
+    <td>
+      <kbd>←</kbd>
+    </td>
+    <td>
+      move to the previous page
+    </td>
+    <!-- File Diff -->
+    <td>
+      <kbd>j</kbd>
+    </td>
+    <td>
+      go down
+    </td>
+  </tr>
+
+  <tr>
+    <!-- Issue / Pull Request List -->
+    <td>
+      ~(<kbd>↓</kbd> and <kbd>↑</kbd>)~ Removed
+    </td>
+    <td>
+      You can use <kbd>j</kbd> and <kbd>k</kbd>
+    </td>
+    <!-- File Diff -->
+    <td>
+      <kbd>space</kbd>
+    </td>
+    <td>
+      expand the file tab
     </td>
   </tr>
 </table>
-
-**Recent Activity**
-
-| command | description |
-|-----------|-------------|
-| <key>j</key> | go down |
-| <key>k</key> | go up |
-| <kbd>Enter</kbd> | move to the item |
-
-**Issue Comments**
-
-| command | description |
-|-----------|-------------|
-| <key>j</key> | go down |
-| <key>k</key> | go up |
-| <key>e</key> | edit comment |
-| <key>n</key> | go new comment form |
-| <key>+</key> OR <key>=</key> | 👍 |
-| <key>-</key> | 👎  |
-
-**Issue & Pull Request Lists**
-
-| command | description |
-|---------|-------------|
-| <kbd>→</kbd> | move to the next page |
-| <kbd>←</kbd> | move to the previous page |
-| <kbd>Enter</kbd> | move to the item (**TO BE REMOVED**) |
 
 ## LICENSE
 
