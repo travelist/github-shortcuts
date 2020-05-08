@@ -2,6 +2,7 @@ import {AbstractGithubItemListListener} from "./abstract-github-item-list-listen
 
 export class GithubFileDiffListener extends AbstractGithubItemListListener {
 
+
     /**
      * HTML Elements of files
      */
@@ -24,7 +25,7 @@ export class GithubFileDiffListener extends AbstractGithubItemListListener {
         this.filesSection = document
             .querySelector(GithubFileDiffListener.FILE_SECTION_SELECTOR) as HTMLElement
         this.items = this.filesSection.querySelectorAll(GithubFileDiffListener.FILE_HEADER_SELECTOR)
-        if (!this.isEmpty()) this.focusOn(this.currentItem)
+        if (!this.isEmpty()) this.focusAndCentralize(this.currentItem, false)
     }
 
     handleKeydown(e: KeyboardEvent): void {

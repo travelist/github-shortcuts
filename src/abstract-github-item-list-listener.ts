@@ -66,9 +66,17 @@ export abstract class AbstractGithubItemListListener extends AbstractGithubListe
      * @param itemIndex item index to be focused
      */
     protected focusOn(itemIndex: number): void {
+        this.focusAndCentralize(itemIndex, true)
+    }
+
+    /**
+     * @param itemIndex item index to be focused
+     * @param centralize the window is scrolled to the item when specified true
+     */
+    protected focusAndCentralize(itemIndex: number, centralize: boolean): void {
         if (itemIndex < 0 || itemIndex > this.size()) return
         this.items[itemIndex].classList.add(AbstractGithubListener.ACTIVE_LIST_ITEM_CLASS)
-        this.centralizeIfNeeded(this.items[itemIndex])
+        if (centralize) this.centralizeIfNeeded(this.items[itemIndex])
     }
 
     /**

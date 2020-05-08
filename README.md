@@ -8,10 +8,10 @@ Chrome extension to provide keyboard shortcuts for Github.
 
 <table>
   <tr>
-    <th width="50%">
+    <th width="50%" colspan="2">
       Recent activity
     </th>
-    <th width="50%">
+    <th width="50%" colspan="2">
       Issue Comments
     </th>
   </tr>
@@ -21,6 +21,10 @@ Chrome extension to provide keyboard shortcuts for Github.
     </td>
     <td>
       <img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-timeline.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
     </td>
   </tr>
 </table>

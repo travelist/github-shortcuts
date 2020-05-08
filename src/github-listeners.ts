@@ -6,6 +6,8 @@ import {GithubIssuesListener} from "./github-issues-listener"
 import {GithubHomeListener} from "./github-home-listener";
 import {GithubCommentListener} from "./github-comment-listener";
 import {GithubFileDiffListener} from "./github-file-diff-listener";
+import {currentPage, GithubPage} from "./github-page";
+import {GithubPullListener} from "./github-pull-listener";
 
 /**
  * Instantiate AbstractGithubListener
@@ -16,10 +18,10 @@ import {GithubFileDiffListener} from "./github-file-diff-listener";
 export const newGithubListener = (): AbstractGithubListener | null => {
     switch (currentPage()) {
         case GithubPage.Issue:
-        case GithubPage.PullRequest:
             return new GithubCommentListener()
+        case GithubPage.PullRequest:
         case GithubPage.Files:
-            return new GithubFileDiffListener()
+            return new GithubPullListener()
         case GithubPage.RepositoryIssueList:
         case GithubPage.UserIssues:
         /**
@@ -44,68 +46,3 @@ export const isSupportedPage = (): boolean => {
     return currentPage() != null
 }
 
-enum GithubPage {
-    /**
-     * https://github.com/:org/:project/issues
-     */
-    RepositoryIssueList,
-
-    /**
-     * https://github.com/issues
-     */
-    UserIssues,
-
-    /**
-     * https://github.com/:org/:project/pulls
-     */
-    RepositoryPullRequestList,
-
-    /**
-     * https://github.com/pulls
-     */
-    UserPullRequests,
-
-    /**
-     * https://github.com/:org/:project/issues/:id
-     */
-    Issue,
-    //
-    /**
-     * https://github.com/:org/:project/pulls/:id
-     */
-    PullRequest,
-
-    /**
-     * https://github.com/
-     */
-    Home,
-
-    /**
-     * https://github.com/:org/:project/pulls/:id/files
-     */
-    Files
-}
-
-const currentPage = (): GithubPage | null => {
-    const paths = window.location.pathname.split('/')
-
-    // This must be located higher than GithubPage.PullRequest check.
-    // Otherwise the page is treated as a pull request comment page
-    if (paths.length >= 1 && paths[paths.length - 1].endsWith('files')) return GithubPage.Files
-    if (paths.length >= 4 && paths[3].endsWith('compare')) return GithubPage.Files
-
-
-    if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
-    if (paths.length >= 5 && paths[3].endsWith('pull')) return GithubPage.PullRequest
-
-
-    if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
-    if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues
-
-    if (paths.length >= 4 && paths[3].endsWith('pulls')) return GithubPage.RepositoryPullRequestList
-    if (paths.length >= 2 && paths[1].endsWith('pulls')) return GithubPage.UserPullRequests
-
-    if (paths.length >= 2 && paths[1] == '') return GithubPage.Home
-
-    return null
-}
