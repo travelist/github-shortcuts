@@ -4,7 +4,11 @@ Chrome extension to provide keyboard shortcuts for Github.
 
 **Installation** [Chrome Web Store](https://chrome.google.com/webstore/detail/pdeaikmjefgminiagmbdhjlmoaoobbjc)
 
-**Supported Commands**
+## Demo
+
+<img src="https://github.com/travelist/github-shortcuts/raw/master/etc/demo-issue-list.gif"/>
+
+## Shortcuts
 
 <table>
   <tr>
