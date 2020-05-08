@@ -50,9 +50,3 @@ workflows:
           workspace-root: ~/github-shortcuts
           requires:
             - build
-          # Only run this job on git tag pushes
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
