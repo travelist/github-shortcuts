@@ -1,4 +1,4 @@
-import {GithubListener} from "./github-listener";
+import {AbstractGithubListener} from "./abstract-github-listener";
 import {CommentReaction} from "./comment-reaction";
 
 enum ItemType {
@@ -6,7 +6,7 @@ enum ItemType {
     PostForm
 }
 
-export class GithubCommentListener extends GithubListener {
+export class GithubCommentListener extends AbstractGithubListener {
 
     /**
      * CSS selector for comment container
@@ -106,14 +106,14 @@ export class GithubCommentListener extends GithubListener {
 
     private focusOn(index: number) {
         if (index < 0 || index >= this.items.length) return
-        this.items[index].classList.add(GithubListener.ACTIVE_LIST_ITEM_CLASS)
+        this.items[index].classList.add(AbstractGithubListener.ACTIVE_LIST_ITEM_CLASS)
         this.centralizeIfNeeded(this.items[index])
         this.focusedItemType = ItemType.Comment
     }
 
     private focusOut(index: number) {
         if (index < 0 || index >= this.items.length) return
-        this.items[index].classList.remove(GithubListener.ACTIVE_LIST_ITEM_CLASS)
+        this.items[index].classList.remove(AbstractGithubListener.ACTIVE_LIST_ITEM_CLASS)
     }
 
     private openEditForm(): void {

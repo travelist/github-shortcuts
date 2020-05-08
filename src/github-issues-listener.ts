@@ -1,11 +1,11 @@
-import {GithubListener} from './github-listener'
+import {AbstractGithubListener} from './abstract-github-listener'
 import {getQueryParams, setQueryParams} from "./utils";
 
 
 /**
  * Event listener for Github issue list component
  */
-export class GithubIssuesListener extends GithubListener {
+export class GithubIssuesListener extends AbstractGithubListener {
 
     /**
      * HTML Attribute that contains total page number

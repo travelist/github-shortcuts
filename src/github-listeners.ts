@@ -1,22 +1,25 @@
 /**
- * Utility methods related to GithubListener
+ * Utility methods related to AbstractGithubListener
  */
-import {GithubListener} from "./github-listener"
+import {AbstractGithubListener} from "./abstract-github-listener"
 import {GithubIssuesListener} from "./github-issues-listener"
 import {GithubHomeListener} from "./github-home-listener";
 import {GithubCommentListener} from "./github-comment-listener";
+import {GithubFileDiffListener} from "./github-file-diff-listener";
 
 /**
- * Instantiate GithubListener
+ * Instantiate AbstractGithubListener
  *
  * @return new instance of github listener, corresponding with current
  * location. Return null if no Github Listener exists for current location.
  */
-export const newGithubListener = (): GithubListener | null => {
+export const newGithubListener = (): AbstractGithubListener | null => {
     switch (currentPage()) {
         case GithubPage.Issue:
         case GithubPage.PullRequest:
             return new GithubCommentListener()
+        case GithubPage.Files:
+            return new GithubFileDiffListener()
         case GithubPage.RepositoryIssueList:
         case GithubPage.UserIssues:
         /**
@@ -76,13 +79,23 @@ enum GithubPage {
      * https://github.com/
      */
     Home,
+
+    /**
+     * https://github.com/:org/:project/pulls/:id/files
+     */
+    Files
 }
 
 const currentPage = (): GithubPage | null => {
     const paths = window.location.pathname.split('/')
 
+    // This must be located higher than GithubPage.PullRequest check.
+    // Otherwise the page is treated as a pull request comment page
+    if (paths.length >= 1 && paths[paths.length - 1].endsWith('files')) return GithubPage.Files
+
     if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
     if (paths.length >= 5 && paths[3].endsWith('pull')) return GithubPage.PullRequest
+
 
     if (paths.length >= 4 && paths[3].endsWith('issues')) return GithubPage.RepositoryIssueList
     if (paths.length >= 2 && paths[1].endsWith('issues')) return GithubPage.UserIssues
