@@ -1,9 +1,15 @@
-import {GithubListener} from "./github-listener"
+import {AbstractGithubListener} from "./abstract-github-listener"
+import {AbstractGithubItemListListener} from "./abstract-github-item-list-listener";
 
 /**
  * Event listener for Github activity list component
  */
-export class GithubHomeListener extends GithubListener {
+export class GithubHomeListener extends AbstractGithubItemListListener {
+
+    /**
+     * HTML Elements of issue items
+     */
+    protected items: NodeListOf<HTMLElement>
 
     /**
      * CSS Selector for retrieving js loading icon box
@@ -35,22 +41,6 @@ export class GithubHomeListener extends GithubListener {
             ?.length === 0
     }
 
-    /**
-     * index of currently focused item
-     */
-    private currentItem: number = 0
-
-    /**
-     * total number of issues in the current page
-     */
-    private totalItem: number = 0
-
-    /**
-     * HTML Elements of issue items
-     */
-    private items: NodeListOf<HTMLElement> = document
-        .querySelectorAll(GithubHomeListener.ACTIVITY_LIST_SELECTOR)
-
     private hiddenItems: NodeListOf<HTMLElement> = document
         .querySelectorAll(GithubHomeListener.ACTIVITY_LIST_HIDDEN_ITEM_SELECTOR)
 
@@ -73,6 +63,9 @@ export class GithubHomeListener extends GithubListener {
     constructor() {
         super();
         this.setupOnceReady()
+        this.items = document
+            .querySelectorAll(GithubHomeListener.ACTIVITY_LIST_SELECTOR)
+
     }
 
     handleKeydown(e: KeyboardEvent): void {
@@ -96,9 +89,7 @@ export class GithubHomeListener extends GithubListener {
             return;
         }
         if (this.isFocusingOnShowMoreButton) return;
-        if (!this.hasNextItem()) return
-        this.focusOut(this.currentItem)
-        this.focusOn(++this.currentItem)
+        this.focusOnNextItem()
     }
 
     private k(e: Event): void {
@@ -107,10 +98,7 @@ export class GithubHomeListener extends GithubListener {
             this.focusOutShowMoreButton()
             return;
         }
-
-        if (!this.hasPrevItem()) return
-        this.focusOut(this.currentItem)
-        this.focusOn(--this.currentItem)
+        this.focusOnPreviousItem()
     }
 
     private enter(e: Event): void {
@@ -122,23 +110,11 @@ export class GithubHomeListener extends GithubListener {
         }
     }
 
-    private hasItems(): boolean {
-        return this.items instanceof NodeList && this.items.length > 0
-    }
-
-    private hasNextItem(): boolean {
-        return this.currentItem + 1 < this.totalItem || this.isNextShowMoreButton()
-    }
-
-    private hasPrevItem(): boolean {
-        return this.currentItem > 0
-    }
-
     private isNextShowMoreButton(): boolean {
         return this.hasShowMoreButton()
             && !this.isFocusingOnShowMoreButton
             && !this.isDetailExpanded
-            && this.currentItem + 1 == this.totalItem - this.hiddenItems.length
+            && this.currentItem + 1 == this.size() - this.hiddenItems.length
     }
 
     private expandShowMoreButton(): void {
@@ -149,28 +125,17 @@ export class GithubHomeListener extends GithubListener {
         this.focusOn(this.currentItem)
     }
 
-    private focusOn(itemIndex: number): void {
-        if (itemIndex < 0 || itemIndex > this.totalItem) return
-        this.items[itemIndex].classList.add(GithubListener.ACTIVE_LIST_ITEM_CLASS)
-        this.centralizeIfNeeded(this.items[itemIndex])
-    }
-
-    private focusOut(itemIndex: number): void {
-        if (itemIndex < 0 || itemIndex > this.totalItem) return
-        this.items[itemIndex].classList.remove(GithubListener.ACTIVE_LIST_ITEM_CLASS)
-    }
-
     private focusOnShowMoreButton() {
         if (!this.hasShowMoreButton() || this.isFocusingOnShowMoreButton) return
         this.isFocusingOnShowMoreButton = true
-        this.showMoreButton[0].classList.add(GithubListener.ACTIVE_LIST_ITEM_CLASS)
+        this.showMoreButton[0].classList.add(AbstractGithubListener.ACTIVE_LIST_ITEM_CLASS)
         this.focusOut(this.currentItem)
     }
 
     private focusOutShowMoreButton() {
         if (!this.hasShowMoreButton() || !this.isFocusingOnShowMoreButton) return
         this.isFocusingOnShowMoreButton = false
-        this.showMoreButton[0].classList.remove(GithubListener.ACTIVE_LIST_ITEM_CLASS)
+        this.showMoreButton[0].classList.remove(AbstractGithubListener.ACTIVE_LIST_ITEM_CLASS)
         this.focusOn(this.currentItem)
     }
 
@@ -180,8 +145,8 @@ export class GithubHomeListener extends GithubListener {
 
     private getCurrentItemLink(): string {
         let itemATagSelector = `${GithubHomeListener.ACTIVITY_LIST_SELECTOR}:nth-child(${this.currentItem + 1}) > a`
-        if (this.isDetailExpanded && this.currentItem - (this.totalItem - this.hiddenItems.length) >= 0) {
-            let index: number = this.currentItem - (this.totalItem - this.hiddenItems.length) + 1
+        if (this.isDetailExpanded && this.currentItem - (this.size() - this.hiddenItems.length) >= 0) {
+            let index: number = this.currentItem - (this.size() - this.hiddenItems.length) + 1
             itemATagSelector = `${GithubHomeListener.ACTIVITY_LIST_HIDDEN_ITEM_SELECTOR}:nth-child(${index}) > a`
         }
         let aTag = document.querySelector(itemATagSelector)
@@ -193,7 +158,6 @@ export class GithubHomeListener extends GithubListener {
             .querySelectorAll(GithubHomeListener.ACTIVITY_LIST_SELECTOR)
         this.hiddenItems = document
             .querySelectorAll(GithubHomeListener.ACTIVITY_LIST_HIDDEN_ITEM_SELECTOR)
-        this.totalItem = this.items.length
         this.showMoreButton = document
             .querySelectorAll(GithubHomeListener.ACTIVITY_SHOW_MORE_SELECTOR)
     }
@@ -202,11 +166,15 @@ export class GithubHomeListener extends GithubListener {
         if (GithubHomeListener.isLoadingCompleted()) {
             this.currentItem = 0
             this.loadContents()
-            if (this.hasItems()) this.focusOn(this.currentItem)
+            if (!this.isEmpty()) this.focusOn(this.currentItem)
         } else {
             setTimeout(() => {
                 this.setupOnceReady()
             }, 300)
         }
+    }
+
+    protected hasNextItem(): boolean {
+        return super.hasNextItem() || this.isNextShowMoreButton();
     }
 }

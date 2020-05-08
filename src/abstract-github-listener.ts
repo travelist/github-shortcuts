@@ -1,7 +1,7 @@
 /**
  * Methods that all event listeners need to implement
  */
-export abstract class GithubListener {
+export abstract class AbstractGithubListener {
 
     /**
      * Class name for active list item
@@ -34,12 +34,12 @@ export abstract class GithubListener {
         let height = window.innerHeight
         let y: number = element.getBoundingClientRect().y
 
-        if (y < GithubListener.SCROLL_CHECK_MARGIN_PX) {
+        if (y < AbstractGithubListener.SCROLL_CHECK_MARGIN_PX) {
             element.scrollIntoView({block: 'center'})
             return true
         }
 
-        if (y > height - GithubListener.SCROLL_CHECK_MARGIN_PX) {
+        if (y > height - AbstractGithubListener.SCROLL_CHECK_MARGIN_PX) {
             element.scrollIntoView({block: 'center'})
             return true
         }
@@ -53,7 +53,7 @@ export abstract class GithubListener {
     protected isInputTagActive(): boolean {
         const a = document.activeElement
         if (a == null) return true
-        return GithubListener.INPUT_WAITING_TAGS
+        return AbstractGithubListener.INPUT_WAITING_TAGS
             .indexOf(a.tagName.toLowerCase()) !== -1;
     }
 }
