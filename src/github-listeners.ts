@@ -92,6 +92,8 @@ const currentPage = (): GithubPage | null => {
     // This must be located higher than GithubPage.PullRequest check.
     // Otherwise the page is treated as a pull request comment page
     if (paths.length >= 1 && paths[paths.length - 1].endsWith('files')) return GithubPage.Files
+    if (paths.length >= 4 && paths[3].endsWith('compare')) return GithubPage.Files
+
 
     if (paths.length >= 5 && paths[3].endsWith('issues')) return GithubPage.Issue
     if (paths.length >= 5 && paths[3].endsWith('pull')) return GithubPage.PullRequest
