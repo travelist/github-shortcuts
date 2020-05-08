@@ -177,7 +177,7 @@ Chrome extension to provide keyboard shortcuts for Github.
   <tr>
     <!-- Issue / Pull Request List -->
     <td>
-      ~(<kbd>↓</kbd> and <kbd>↑</kbd>)~ Removed
+      (<kbd>↓</kbd> and <kbd>↑</kbd>) Removed
     </td>
     <td>
       You can use <kbd>j</kbd> and <kbd>k</kbd>
