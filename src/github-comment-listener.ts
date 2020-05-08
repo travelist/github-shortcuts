@@ -32,6 +32,7 @@ export class GithubCommentListener extends AbstractGithubListener {
 
     constructor() {
         super();
+
         this.focusedItemType = ItemType.Comment
         if (this.hasItem()) this.focusOn(this.currentItem)
 
